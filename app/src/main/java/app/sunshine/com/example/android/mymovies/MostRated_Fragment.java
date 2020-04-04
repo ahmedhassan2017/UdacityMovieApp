@@ -24,10 +24,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class MostRated_Fragment extends Fragment implements MoviesAdapter.ListItemClickListener {
+public class MostRated_Fragment extends Fragment implements MovieListAdapter.ListItemClickListener {
 
     LinearLayoutManager mLayoutManager;
     RecyclerView recyclerView;
+    MovieListAdapter adapter;
 
     private ArrayList<Movies> moviesArrayList = new ArrayList<>();
 
@@ -39,7 +40,8 @@ public class MostRated_Fragment extends Fragment implements MoviesAdapter.ListIt
 
         View root = inflater.inflate(R.layout.fragment_most_rated_, container, false);
 
-         recyclerView = root.findViewById(R.id.recyclerView1);
+        recyclerView = root.findViewById(R.id.recyclerView1);
+        adapter = new MovieListAdapter(getContext(), this);
         fetchTopRatedData();
 
 
@@ -48,16 +50,7 @@ public class MostRated_Fragment extends Fragment implements MoviesAdapter.ListIt
         recyclerView.setLayoutManager(staggeredGridLayoutManager); // set LayoutManager to RecyclerView
 
 
-
         return root;
-    }
-
-
-    @Override
-    public void onListItemClick(Movies movieitem) {
-        Detailes_Fragment detailes_fragment = new Detailes_Fragment();
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_home, detailes_fragment, "").commit();
-
     }
 
 
@@ -82,7 +75,6 @@ public class MostRated_Fragment extends Fragment implements MoviesAdapter.ListIt
                         moviesArrayList.addAll(items);
 
 
-                        MovieListAdapter adapter = new MovieListAdapter(getContext());
                         adapter.setList(moviesArrayList);
                         recyclerView.setAdapter(adapter);
                     }
@@ -97,6 +89,12 @@ public class MostRated_Fragment extends Fragment implements MoviesAdapter.ListIt
 
     }
 
+    @Override
+    public void onListItemClick(int pos) {
+        Toast.makeText(getActivity(), moviesArrayList.get(pos).getTitle(), Toast.LENGTH_SHORT).show();
+
+
+    }
 }
 
 

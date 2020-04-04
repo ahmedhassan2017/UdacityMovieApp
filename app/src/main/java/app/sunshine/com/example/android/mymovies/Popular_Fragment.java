@@ -26,8 +26,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Popular_Fragment extends Fragment implements MovieListAdapter.ListItemClickListener {
     LinearLayoutManager mLayoutManager;
-    //    MoviesAdapter adapter;
     RecyclerView recyclerView;
+    MovieListAdapter adapter;
     private ArrayList<Movies> moviesArrayList = new ArrayList<>();
 
 
@@ -38,6 +38,7 @@ public class Popular_Fragment extends Fragment implements MovieListAdapter.ListI
         View root = inflater.inflate(R.layout.fragment_popular_, container, false);
 
         recyclerView = root.findViewById(R.id.recyclerView2);
+         adapter = new MovieListAdapter(getContext(),this);
         fetchPopularData();
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(
                 2, LinearLayoutManager.VERTICAL);
@@ -47,11 +48,7 @@ public class Popular_Fragment extends Fragment implements MovieListAdapter.ListI
     }
 
 
-    @Override
-    public void onListItemClick(Movies movieitem) {
 
-        Toast.makeText(getActivity(), movieitem.getTitle(), Toast.LENGTH_SHORT).show();
-    }
 
 
     public void fetchPopularData() {
@@ -73,7 +70,7 @@ public class Popular_Fragment extends Fragment implements MovieListAdapter.ListI
 
                         ArrayList<Movies> items = serverResponse.getMovies();
                         moviesArrayList.addAll(items);
-                        MovieListAdapter adapter = new MovieListAdapter(getContext());
+
                         adapter.setList(moviesArrayList);
                         recyclerView.setAdapter(adapter);
 
@@ -86,5 +83,11 @@ public class Popular_Fragment extends Fragment implements MovieListAdapter.ListI
                         ;
                     }
                 });
+    }
+
+    @Override
+    public void onListItemClick(int pos) {
+        Toast.makeText(getActivity(), moviesArrayList.get(pos).getTitle(), Toast.LENGTH_SHORT).show();
+
     }
 }

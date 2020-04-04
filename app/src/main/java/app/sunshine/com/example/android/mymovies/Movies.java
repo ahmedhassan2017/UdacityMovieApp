@@ -2,7 +2,7 @@ package app.sunshine.com.example.android.mymovies;
 
 import com.google.gson.annotations.SerializedName;
 
-class Movies {
+class Movies  {
     @SerializedName("popularity")
     String popularity;
     @SerializedName("vote_count")
